@@ -1,0 +1,141 @@
+openapi: 3.0.0  
+info:  
+  title: "Splitwise API"  
+  description: "This is an API for splitwise"  
+  version: "1.0.0"
+servers:  
+  - url: "/v1/"
+
+paths:
+  /users:
+    get:
+      operationId: "splitwise.routes.users.get_users"
+      tags:
+        - "Users"  
+      summary: "Fetch all users"  
+      responses:  
+        "200":  
+          description: "Success"  
+        "400":
+          description: "Bad Request"
+
+    post:
+      operationId: "splitwise.routes.users.add_users"
+      tags: 
+        - "Users"
+      summary: "Create new user"
+      requestBody:
+        description: Object to create new user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUser'
+      responses:
+        "201":
+          description: "Created"
+        "400":
+          description: "Bad request"
+  
+  /users/{userId}:
+    get:
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User identifier
+          schema:
+            type: string
+      operationId: "splitwise.routes.users.get_user_by_id"
+      tags:
+        - "Users"  
+      summary: "Fetch user by userId"  
+      responses:  
+        "200":  
+          description: "Success"  
+        "400":
+          description: "Bad Request"
+        "404":
+          description: "Not found"
+
+    patch:
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User identifier
+          schema:
+            type: string
+      operationId: "splitwise.routes.users.update_user"
+      tags: 
+        - "Users"
+      summary: "Update user"
+      requestBody:
+        description: Object to update user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+      responses:
+        "201":
+          description: "Updated"
+        "400":
+          description: "Bad request"
+        "404":
+          description: "Not found"
+
+    delete:
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User identifier
+          schema:
+            type: string
+      operationId: "splitwise.routes.users.delete_user"
+      tags: 
+        - "Users"
+      summary: "Delete user"
+      responses:
+        "200":
+          description: "Deleted"
+        "400":
+          description: "Bad request"
+        "404":
+          description: "Not found"
+
+
+
+components:
+  schemas:
+    AddUser:
+      type: object
+      required:
+        - name
+        - email
+        - phone
+      properties:
+        name:
+          type: string
+          example: "username"
+        email:
+          type: string
+          example: "user@gmail.com"
+        phone:
+          type: string
+          example: "9878765654"
+    UpdateUser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "username"
+        email:
+          type: string
+          example: "user@gmail.com"
+        phone:
+          type: string
+          example: "9878765654"
+
+    
